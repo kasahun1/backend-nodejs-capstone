@@ -11,10 +11,10 @@ const directoryPath = 'public/images'
 
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, directoryPath); // Specify the upload directory
   },
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname); // Use the original file name
   },
 });
@@ -79,7 +79,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         const db = await connectToDatabase();
         const collection = db.collection('secondChanceItems');
-        const secondChanceItem = await collection.findOne({ id: id });
+        const secondChanceItem = await collection.findOne({ id: req.params.id });
         if (!secondChanceItem) {
             return res.status(404).send("secondChanceItem not found");
           }
